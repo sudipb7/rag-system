@@ -1,8 +1,8 @@
-import { Doc } from "../types";
+import { Doc } from "../../types";
 // import { ELEPHANT_WIKI } from "./mock-data";
 
 // Splits the text into chunks of a specified size
-// Useful for splitting the text into smaller chunks for better context
+// Useful for splitting the text into smaller chunks to avoid exceeding the token limit
 export async function splitText(data: Doc[]) {
   const chunks: Doc[] = [];
 

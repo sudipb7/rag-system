@@ -1,7 +1,7 @@
 import { and, cosineDistance, desc, gt, sql } from "drizzle-orm";
 
-import { db } from "../db";
-import { facts } from "../db/schema";
+import { db } from "../../db";
+import { facts } from "../../db/schema";
 import { generateEmbeddings } from "./generate-embeddings";
 
 /**
@@ -41,11 +41,3 @@ export async function retrieveData(
 
   return documents;
 }
-
-// Testing
-// async function main() {
-//   const documents = await retrieveData("Tell me about elephants");
-//   console.log(documents);
-// }
-
-// main();

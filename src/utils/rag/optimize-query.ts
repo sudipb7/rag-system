@@ -1,4 +1,4 @@
-import { openai } from "./clients";
+import { openai } from "../clients";
 
 // Takes a user query and returns an optimized version for better RAG retrieval
 export async function getOptimizedQuery(query: string) {
@@ -28,12 +28,3 @@ export async function getOptimizedQuery(query: string) {
 
   return response.choices[0]?.message.content ?? query;
 }
-
-// Output - "Information about elephants."
-// async function main() {
-//   const query = "Tell me about elephants";
-//   const optimizedQuery = await getOptimizedQuery(query);
-//   console.log(optimizedQuery);
-// }
-
-// main();

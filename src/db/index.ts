@@ -1,7 +1,7 @@
 import postgres from "postgres";
 import { drizzle } from "drizzle-orm/postgres-js";
 
-import { DATABASE_URL } from "../config";
+import { DATABASE_URL } from "../constants/env";
 import { facts } from "./schema";
 
 const schema = { facts };

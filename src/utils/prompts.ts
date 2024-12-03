@@ -1,22 +1,15 @@
-import { processQuery } from "..";
-import { openai } from "./clients";
+export function getBasicPrompt(context: string) {
+  return `
+You are an AI assistant tasked with answering questions about animals.
+Your goal is to provide accurate and helpful information based on the provided context.
 
-async function main() {
-  const query = "How far can polar bear swim?";
+Context:
+${context}
+`;
+}
 
-  const relevantDocs = await processQuery(query);
-
-  const context = relevantDocs.map(doc => doc.content).join("\n\n");
-
-  const BASIC_PROMPT = `
-  You are an AI assistant tasked with answering questions about animals.
-  Your goal is to provide accurate and helpful information based on the provided context.
-  
-  Context:
-  ${context}
-  `;
-
-  const ADVANCED_PROMPT = `You are a helpful assistant that answers questions about animals based on factual information. Your task is to provide accurate and informative responses to questions about animals using the following context:
+export function getAdvancedPrompt(context: string) {
+  return `You are a helpful assistant that answers questions about animals based on factual information. Your task is to provide accurate and informative responses to questions about animals using the following context:
 
 <animal_facts>
 ${context}
@@ -39,21 +32,4 @@ When answering questions, follow these guidelines:
 7. If appropriate, encourage curiosity by suggesting related topics the questioner might find interesting based on their initial question.
 
 Remember to base your answer solely on the provided animal facts context and follow the guidelines outlined above.`;
-
-  const PROMPT_TO_USE = ADVANCED_PROMPT;
-
-  const completion = await openai.chat.completions.create({
-    model: "gpt-4o",
-    messages: [
-      { role: "system", content: PROMPT_TO_USE },
-      { role: "user", content: query },
-    ],
-    stream: true,
-  });
-
-  for await (const chunk of completion) {
-    process.stdout.write(chunk.choices[0]?.delta.content ?? "");
-  }
 }
-
-main();

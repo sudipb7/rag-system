@@ -1,32 +1,30 @@
-import * as envs from "./config";
-import { checkEnv } from "./utils/checkEnv";
-import { extractName } from "./utils/filter-metadata";
-import { getOptimizedQuery } from "./utils/optimize-query";
-import { rankDocuments } from "./utils/rerank-documents";
-import { retrieveData } from "./utils/retrieve-data";
+import * as envs from "./constants/env";
+import { checkEnv, getAdvancedPrompt, openai } from "./utils";
+import { rankDocuments, retrieveData, extractName, getOptimizedQuery } from "./utils/rag";
 
 checkEnv(Object.keys(envs));
 
-export async function processQuery(query: string) {
+async function main(query: string) {
   const optimizedQuery = await getOptimizedQuery(query);
-  // console.log("Optimized Query:", optimizedQuery);
-
   const entityName = await extractName(optimizedQuery);
-  // console.log("Entity Name:", entityName);
-
   const retrievedDocs = await retrieveData(optimizedQuery, { name: entityName });
-  // console.log("Retrieved Docs:", retrievedDocs);
+  const relevantDocs = await rankDocuments(optimizedQuery, retrievedDocs, 3);
 
-  const rankedResults = await rankDocuments(optimizedQuery, retrievedDocs, 3);
-  // console.log("Ranked Results:", rankedResults);
+  const context = relevantDocs.map(doc => doc.content).join("\n\n");
+  const prompt = getAdvancedPrompt(context);
 
-  return rankedResults;
+  const completion = await openai.chat.completions.create({
+    model: "gpt-4o",
+    messages: [
+      { role: "system", content: prompt },
+      { role: "user", content: query },
+    ],
+    stream: true,
+  });
+
+  for await (const chunk of completion) {
+    process.stdout.write(chunk.choices[0]?.delta.content ?? "");
+  }
 }
 
-// async function main() {
-//   const query = "Can sea otters use tools?";
-//   const results = await processQuery(query);
-//   console.log("Results:", results);
-// }
-
-// main();
+main("Tell me something about Koalas");
