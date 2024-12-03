@@ -13,7 +13,7 @@ export async function retrieveData(
   input: string,
   options: { limit?: number; minSimilarity?: number; name?: string | null } = {}
 ) {
-  const { limit = 3, minSimilarity = 0.3, name = null } = options;
+  const { limit = 10, minSimilarity = 0.3, name = null } = options;
 
   const embeddings = await generateEmbeddings([input]);
   if (!embeddings[0]?.length) {

@@ -1,12 +1,8 @@
 import { db } from "../db";
 import { facts } from "../db/schema";
+import { Doc } from "../types";
 import { generateEmbeddings } from "./generate-embeddings";
 // import { MOCK_DATA } from "./mock-data";
-
-interface Doc {
-  name: string;
-  content: string;
-}
 
 export async function uploadData(docs: Doc[]) {
   const embeddings = await generateEmbeddings(docs.map(doc => doc.content));
