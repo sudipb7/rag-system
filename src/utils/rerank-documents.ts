@@ -1,6 +1,6 @@
 import { Doc } from "../types";
 import { cohere } from "./clients";
-import { retrieveData } from "./retrieve-data";
+// import { retrieveData } from "./retrieve-data";
 
 export async function rankDocuments(query: string, documents: Doc[], limit = 5) {
   const rerank = await cohere.v2.rerank({
@@ -17,11 +17,11 @@ export async function rankDocuments(query: string, documents: Doc[], limit = 5) 
   }));
 }
 
-async function main() {
-  const retrievedDocs = await retrieveData("I want to learn about animal sleep");
-  console.log("Retieved Docs: ", retrievedDocs);
-  const documents = await rankDocuments("I want to learn about animal sleep", retrievedDocs);
-  console.log("Reranked Docs: ", documents);
-}
+// async function main() {
+//   const retrievedDocs = await retrieveData("I want to learn about animal sleep");
+//   console.log("Retieved Docs: ", retrievedDocs);
+//   const documents = await rankDocuments("I want to learn about animal sleep", retrievedDocs);
+//   console.log("Reranked Docs: ", documents);
+// }
 
-main();
+// main();

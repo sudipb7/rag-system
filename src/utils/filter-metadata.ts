@@ -5,6 +5,7 @@ import { openai } from "./clients";
 export async function extractName(query: string) {
   const response = await openai.chat.completions.create({
     model: "gpt-4o",
+    // TODO: Add a system prompt
     messages: [{ role: "user", content: query }],
     tools: [
       {
