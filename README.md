@@ -1,4 +1,4 @@
-# RAG-Powered Animal Facts API
+# RAG-Powered Animal Facts System
 
 A sophisticated Retrieval-Augmented Generation (RAG) system that provides detailed, accurate information about various animals using OpenAI's GPT-4 and vector embeddings for context-aware responses.
 
