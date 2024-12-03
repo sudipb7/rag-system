@@ -7,7 +7,7 @@ import { retrieveData } from "./utils/retrieve-data";
 
 checkEnv(Object.keys(envs));
 
-async function processQuery(query: string) {
+export async function processQuery(query: string) {
   const optimizedQuery = await getOptimizedQuery(query);
   // console.log("Optimized Query:", optimizedQuery);
 
@@ -23,10 +23,10 @@ async function processQuery(query: string) {
   return rankedResults;
 }
 
-async function main() {
-  const query = "Can sea otters use tools?";
-  const results = await processQuery(query);
-  console.log("Results:", results);
-}
+// async function main() {
+//   const query = "Can sea otters use tools?";
+//   const results = await processQuery(query);
+//   console.log("Results:", results);
+// }
 
-main();
+// main();
